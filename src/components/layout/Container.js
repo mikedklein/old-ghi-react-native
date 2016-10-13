@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import variables from '../theme/styleVariables';
+import variables from '../../theme/styleVariables';
 
 import {
   StyleSheet,
-  View,
+  View
 } from 'react-native';
 
 export default class Container extends Component {
@@ -12,8 +12,9 @@ export default class Container extends Component {
   }
 
   render() {
+    let backgroundColor = this.props.color ? this.props.color : variables.colors.background;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor}]}>
         {this.props.children}
       </View>
     );
@@ -24,9 +25,6 @@ export default class Container extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    backgroundColor: variables.colors.backgroundColor,
+    flex: 1
   }
 });

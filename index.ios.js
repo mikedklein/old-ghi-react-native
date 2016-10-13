@@ -1,49 +1,42 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-import variables from './theme/styleVariables';
-import React, { Component } from 'react';
-import LoginView from './views/Login';
-import HomeView from './views/Home';
+'use strict';
 
+import React, { Component } from 'react';
+import IpadLayout from './src/devices/IpadLayout';
+import IphoneLayout from './src/devices/IphoneLayout';
 import {
   AppRegistry,
-  Navigator
+  View,
+  Dimensions
 } from 'react-native';
 
 class TestProject extends Component {
+  constructor() {
+    super();
 
-  navigtorRenderScene = (route, navigator) => {
-    switch (route.id) {
-      case 'login':
-        return (
-          <LoginView
-            id='login'
-            navigator={navigator}
-            title='Login'
-            configureScene={(route, routeStack) => Navigator.SceneConfigs.HorizontalSwipeJump}
-            />
-        );
-      case 'home':
-        return (
-          <HomeView
-            id='home'
-            navigator={navigator}
-            configureScene={(route, routeStack) => Navigator.SceneConfigs.HorizontalSwipeJumpFromRight}
-            {...route.passProps}
-            title='Home' />
-        );
-    }
+    this.state = {
+      height: 0,
+      width: 0
+    };
   }
 
+  componentDidMount() {
+    this.setState({
+      height: Dimensions.get('window').height,
+      width: Dimensions.get('window').width
+    });
+  }
   render() {
+    let component;
+    if (this.state.width > 750) {
+      component = <IpadLayout />;
+    } else {
+      component = <IphoneLayout />;
+    }
+
     return (
-      <Navigator
-        initialRoute = {{ title: 'Login', id: 'login'}}
-        renderScene={this.navigtorRenderScene}
-      />
+     <View>
+       {component}
+     </View>
     );
   }
 }
