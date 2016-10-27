@@ -4,9 +4,11 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.horcrux.svg.RNSvgPackage;
+import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.github.yamill.orientation.OrientationPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.RNSvgPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -27,9 +29,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeI18n(),
+            new OrientationPackage(),
+            new VectorIconsPackage(),
             new RNSvgPackage(),
-            new OrientationPackage(this),
-            new VectorIconsPackage()
+            new LinearGradientPackage()
       );
     }
   };

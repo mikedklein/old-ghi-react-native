@@ -1,0 +1,6 @@
+{
+  "extends": "rallycoding",
+  "settings": {
+    "import/core-modules": [ "react-native-linear-gradient", "react-native-orientation" ]
+  }
+}

@@ -1,70 +1,109 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import TitleText from '../../elements/TitleText';
+import SubText from '../../elements/SubText';
+import Spacer from '../../elements/Spacer';
 import variables from '../../../theme/styleVariables';
 
 class JournalEntry extends Component {
+  state = {
+    showIcon: true
+  };
+
+  componentDidMount() {
+    if (Dimensions.get('window').width < 750) {
+      this.setState({
+        showIcon: false
+      });
+    }
+  }
+
   render() {
+    const {
+      active,
+      title,
+      doctor,
+      iconType,
+      location,
+      date,
+      score,
+      scoreTitle,
+      onPress
+    } = this.props;
 
-
-    let {active, title, doctor, iconType, location, date, type, score, scoreTitle, onPress} = this.props
     let scoreContent;
 
-    //TODO This check is insufficient but works for now will need to be revamped when the actual API is
-    // official
-    if(score) {
+    // TODO This check is insufficient but works for now will need to be
+    // revamped when the actual API is complete
+    if (score) {
       scoreContent = (
         <View style={styles.scoreContainer}>
           <View style={styles.scoreWrapper}>
             <View style={styles.scoreShadow}>
-              <Text style={styles.score}>
+              <Text
+                style={styles.scoreText}
+                themed
+              >
                 {score}
               </Text>
             </View>
           </View>
-          <Text style={styles.scoreTitle}>
-            {scoreTitle}
-          </Text>
+          <View>
+            <SubText dark>
+              {scoreTitle}
+            </SubText>
+          </View>
         </View>
-      )
+      );
     }
 
-    let iconColor = '#E2E2E2';
-    let activeBackground = null;
-    let activeTextColor = null;
+    let iconColor = variables.colors.iconLight;
+    let activeBackground = {};
+    let activeTextColor = {};
 
     if (active) {
-      iconColor = 'white';
+      iconColor = variables.colors.white;
       activeBackground = { backgroundColor: variables.colors.primary };
-      activeTextColor = { color: 'white' };
+      activeTextColor = { color: variables.colors.white };
     }
 
     return (
-      <View style={styles.container} onPress={ () => {onPress(title)} }>
-        <Image source={require('../../../images/background.png')} style={styles.left}>
-          <View style={[ styles.iconWrapper, activeBackground ]} >
-            <Icon type='font-awesome' name={iconType} color={iconColor} size={40} />
-          </View>
-        </Image>
-        <View style={[ styles.right, activeBackground ]}>
+      <View style={styles.container} onPress={() => onPress(title)} >
+        {
+          this.state.showIcon &&
+          <Image source={require('../../../images/background.png')} style={styles.left}>
+            <View style={[styles.iconWrapper, activeBackground]} >
+              <Icon type='font-awesome' name={iconType} color={iconColor} size={40} />
+            </View>
+          </Image>
+        }
+        <View style={[styles.right, activeBackground]}>
           <View style={styles.column1}>
-            <View style={styles.spacer} />
-            <Text style={[ styles.name, activeTextColor]} >{title}</Text>
-            <Text style={[ styles.doctor, activeTextColor ]} >{doctor}, {location}</Text>
-            <View style={styles.spacer} />
-            <Text style={[ styles.date, activeTextColor ]}>{date}</Text>
-            <View style={styles.spacer} />
+            <Spacer />
+            <View>
+              <TitleText themed style={activeTextColor}>{title}</TitleText>
+              <SubText
+                style={activeTextColor}
+                italic
+                >
+                {doctor}, {location}
+              </SubText>
+            </View>
+            <Spacer />
+            <View>
+              <SubText style={activeTextColor}>{date}</SubText>
+            </View>
+            <Spacer />
           </View>
-          <View style={styles.spacer} />
           <View style={styles.column2}>
             {scoreContent}
           </View>
         </View>
       </View>
-    )
+    );
   }
-};
+}
 
 JournalEntry.propTypes = {
   title: PropTypes.string.isRequired,
@@ -78,6 +117,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: 'white',
+    minHeight: 110,
+    maxHeight: 110,
     flex: 1
   },
   left: {
@@ -106,10 +147,12 @@ const styles = StyleSheet.create({
     backgroundColor: variables.colors.background,
     paddingLeft: 10,
     paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
     margin: 5,
     borderRadius: 2,
     shadowColor: 'black',
-    shadowOpacity: .2,
+    shadowOpacity: 0.2,
     shadowOffset: {
       height: 1,
       width: 1
@@ -123,7 +166,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   scoreWrapper: {
-    backgroundColor: 'rgba(255,255,255, .8)',
+    backgroundColor: 'rgba(255,255,255, 0.8)',
     padding: 3,
     marginBottom: 5,
     borderRadius: 50,
@@ -132,7 +175,7 @@ const styles = StyleSheet.create({
   scoreShadow: {
     backgroundColor: 'white',
     shadowColor: 'black',
-    shadowOpacity: .67,
+    shadowOpacity: variables.shadowOpacity,
     shadowOffset: {
       height: 0,
       width: 0
@@ -141,31 +184,19 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 10
   },
-  score: {
+  scoreText: {
+    fontSize: variables.type.scoreTextFontSize,
+    lineHeight: variables.type.scoreTextLineHeight,
     color: variables.colors.primary,
-    fontSize: variables.type.headingFontSize + 15,
-    fontWeight: 'bold'
+    fontWeight: '600',
+    marginTop: 3
   },
-  scoreTitle: {
-    fontSize:variables.type.headingFontSize -5,
-    color: '#414141'
+  column1: {
+    flex: 3,
   },
-  name: {
-    color: variables.colors.primary,
-    fontSize: variables.type.headingFontSize,
-    fontWeight: 'bold'
-  },
-  doctor: {
-    fontSize: (variables.type.headingFontSize - 4),
-    color: '#414141',
-    fontStyle: 'italic'
-  },
-  date: {
-    fontSize: (variables.type.headingFontSize - 5),
-    color: '#414141',
-  },
-  spacer: {
-    flex: 1
+  column2: {
+    flex: 1,
+    alignSelf: 'flex-end'
   }
 });
 

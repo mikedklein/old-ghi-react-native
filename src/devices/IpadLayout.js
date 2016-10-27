@@ -1,7 +1,11 @@
-'use strict';
-
-import React, {Component} from 'react';
-import {Tabs, Tab, Icon} from 'react-native-elements';
+import React, { Component } from 'react';
+import { Tabs, Tab, Icon } from 'react-native-elements';
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  View,
+  Dimensions
+} from 'react-native';
 import Orientation from 'react-native-orientation';
 
 import LoginView from '../components/views/Login';
@@ -9,15 +13,8 @@ import HomeView from '../components/views/Home';
 import ProfileView from '../components/views/Profile';
 import JournalView from '../components/views/Journal';
 
+import variables from '../theme/styleVariables';
 import userData from '../api/user';
-
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  View,
-  Text,
-  Dimensions
-} from 'react-native';
 
 export default class IpadLayout extends Component {
 
@@ -30,6 +27,19 @@ export default class IpadLayout extends Component {
     width: 0,
     selectedTab: 'home'
   };
+
+  componentDidMount() {
+    this.setState({
+      height: Dimensions.get('window').height,
+      width: Dimensions.get('window').width
+    });
+
+    Orientation.addOrientationListener(this.orientationDidChange);
+  }
+
+  componentWillUnmount() {
+    Orientation.removeOrientationListener(this.orientationDidChange);
+  }
 
   orientationDidChange = () => {
     this.setState({
@@ -50,30 +60,32 @@ export default class IpadLayout extends Component {
   };
 
   changeTab = (selectedTab) => {
-    this.setState({selectedTab})
+    this.setState({ selectedTab });
   };
 
   renderContent = () => {
-    const {selectedTab} = this.state;
+    const { selectedTab } = this.state;
 
     if (this.state.loggedIn) {
       return (
-        <KeyboardAvoidingView style={[styles.screen, {height: this.state.height}]}>
+        <KeyboardAvoidingView style={[styles.screen, { height: this.state.height }]}>
           <View style={styles.master}>
-            <ProfileView user={userData}/>
+            <ProfileView user={userData} />
           </View>
           <View style={styles.detail}>
             <Tabs
               tabBarStyle={styles.tabBarStyle}
-              tabBarShadowStyle={styles.tabBarShadowStyle}>
+              tabBarShadowStyle={styles.tabBarShadowStyle}
+            >
               <Tab
                 selected={selectedTab === 'home'}
                 title={selectedTab === 'home' ? 'HOME' : null}
                 titleStyle={styles.titleStyle}
                 selectedTitleStyle={styles.titleStyle}
-                renderIcon={() => <Icon name='home' color='white' size={26}/>}
-                renderSelectedIcon={() => <Icon name='home' color='white' size={26}/>}
-                onPress={() => this.changeTab('home')}>
+                renderIcon={() => <Icon name='home' color='white' size={26} />}
+                renderSelectedIcon={() => <Icon name='home' color='white' size={26} />}
+                onPress={() => this.changeTab('home')}
+              >
                 <HomeView />
               </Tab>
               <Tab
@@ -81,52 +93,39 @@ export default class IpadLayout extends Component {
                 title={selectedTab === 'journal' ? 'JOURNAL' : null}
                 titleStyle={styles.titleStyle}
                 selectedTitleStyle={styles.titleStyle}
-                renderIcon={() => <Icon name='mode-edit' color='white' size={26}/>}
-                renderSelectedIcon={() => <Icon name='mode-edit' color='white' size={26}/>}
-                onPress={() => this.changeTab('journal')}>
+                renderIcon={() => <Icon name='mode-edit' color='white' size={26} />}
+                renderSelectedIcon={() => <Icon name='mode-edit' color='white' size={26} />}
+                onPress={() => this.changeTab('journal')}
+              >
                 <JournalView />
               </Tab>
             </Tabs>
           </View>
         </KeyboardAvoidingView>
-      )
-    } else {
-      return (
-        <KeyboardAvoidingView style={[styles.loginScreen, {height: this.state.height}]}>
-          <View style={styles.loginSpacer}/>
-          <LoginView
-            id='login'
-            title='Login'
-            username={this.state.username}
-            password={this.state.password}
-            loginHandler={this.loginHandler}
-            usernameChange={(username) => this.setState({username})}
-            passwordChange={(password) => this.setState({password})}
-          />
-          <View style={styles.loginSpacer}/>
-        </KeyboardAvoidingView>
       );
-
     }
 
-  };
-
-  componentDidMount() {
-    this.setState({
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width
-    });
-
-    Orientation.addOrientationListener(this.orientationDidChange);
-  }
-
-  componentWillUnmount() {
-    Orientation.removeOrientationListener(this.orientationDidChange);
+    //Defautl Return
+    return (
+      <KeyboardAvoidingView style={[styles.loginScreen, { height: this.state.height }]}>
+        <View style={styles.loginSpacer} />
+        <LoginView
+          id='login'
+          title='Login'
+          username={this.state.username}
+          password={this.state.password}
+          loginHandler={this.loginHandler}
+          usernameChange={(username) => this.setState({ username })}
+          passwordChange={(password) => this.setState({ password })}
+        />
+        <View style={styles.loginSpacer} />
+      </KeyboardAvoidingView>
+    );
   }
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {this.renderContent()}
       </View>
     );
@@ -135,7 +134,7 @@ export default class IpadLayout extends Component {
 
 const styles = StyleSheet.create({
   screen: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingTop: 20
   },
   loginScreen: {
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   loginSpacer: {
-    flex: .5
+    flex: 0.5
   },
   master: {
     flex: 1

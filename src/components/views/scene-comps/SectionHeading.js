@@ -1,3 +1,5 @@
+// TODO might want to evaluate if this component is needed or if it can
+// be composed of common elements.
 import React, { Component, PropTypes } from 'react';
 import variables from '../../../theme/styleVariables';
 
@@ -36,4 +38,4 @@ const styles = StyleSheet.create({
 
 SectionHeading.propTypes = {
   text: PropTypes.string.isRequired
-}
+};

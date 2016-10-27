@@ -1,7 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import {
+    StyleSheet,
+    ScrollView,
+} from 'react-native';
 import Container from '../../components/layout/Container';
-import SectionHeading from './scene-comps/SectionHeading';
 import DayOfWeek from './scene-comps/DayOfWeek';
+import variables from '../../theme/styleVariables';
 
 
 // TODO retrieve this from data service
@@ -67,12 +71,6 @@ const meds = [
     }
   }
 ];
-//noinspection JSUnresolvedVariable
-import {
-    StyleSheet,
-    View,
-    ScrollView,
-} from 'react-native';
 
 export default class HomeView extends Component {
 
@@ -108,7 +106,7 @@ const styles = StyleSheet.create({
             height: 1,
             width: 1
         },
-        shadowOpacity: .12,
+        shadowOpacity: variables.shadowOpacity,
         shadowRadius: 3,
     }
 });

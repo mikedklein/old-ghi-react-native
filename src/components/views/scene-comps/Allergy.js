@@ -1,16 +1,18 @@
-import React, {Component, PropTypes} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import variables from '../../../theme/styleVariables';
+import React, { Component, PropTypes } from 'react';
+import { View, StyleSheet } from 'react-native';
+import TitleText from '../../elements/TitleText';
+import SubText from '../../elements/SubText';
+import Spacer from '../../elements/Spacer';
 
 class Allergy extends Component {
   getRating = () => {
-    let ratings = [];
+    const ratings = [];
 
     for (let i = 0; i < 5; i++) {
       if (i > this.props.severity - 1) {
-        ratings.push(<View key={i} style={styles.dotEmpty}/>);
+        ratings.push(<View key={i} style={styles.dotEmpty} />);
       } else {
-        ratings.push(<View key={i} style={styles.dotFilled}/>);
+        ratings.push(<View key={i} style={styles.dotFilled} />);
       }
     }
 
@@ -27,7 +29,7 @@ class Allergy extends Component {
         return 'Moderate';
       case 2:
         return 'Mild to Moderate';
-      case 1:
+      default:
         return 'Mild';
     }
   };
@@ -36,22 +38,22 @@ class Allergy extends Component {
     return (
       <View style={styles.wrapperRow}>
         <View style={styles.row}>
-          <Text style={styles.name}>
+          <TitleText themed>
             {this.props.name}
-          </Text>
-          <View style={styles.spacer}/>
+          </TitleText>
+          <Spacer />
           <View style={styles.dotWrapper}>
             {this.getRating()}
           </View>
         </View>
         <View style={styles.row}>
-          <Text style={styles.lowerText}>
+          <SubText>
             {this.props.reaction}
-          </Text>
-          <View style={styles.spacer}/>
-          <Text style={styles.lowerText}>
+          </SubText>
+          <Spacer />
+          <SubText style={{ textAlign: 'right' }}>
             {this.getSeverityName()}
-          </Text>
+          </SubText>
         </View>
       </View>
     );
@@ -71,16 +73,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5
   },
-  name: {
-    color: variables.colors.primary,
-    fontSize: variables.type.headingFontSize,
-    fontWeight: 'bold'
-  },
   row: {
     flexDirection: 'row',
-  },
-  spacer: {
-    flex: 1
   },
   dotWrapper: {
     flexDirection: 'row',
@@ -102,10 +96,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     borderColor: '#EEEEEE'
-  },
-  lowerText: {
-    color: variables.colors.headingText,
-    fontSize: 16
   }
 });
 

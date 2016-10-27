@@ -3,23 +3,23 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-import React, {Component} from 'react';
-import {SideMenu, List, ListItem} from 'react-native-elements';
+import React, { Component } from 'react';
+import {
+  Dimensions,
+  Navigator,
+  StyleSheet,
+  View
+} from 'react-native';
+import { SideMenu, List, ListItem } from 'react-native-elements';
 import Orientation from 'react-native-orientation';
 
+import variables from '../theme/styleVariables';
 import LoginView from '../components/views/Login';
 import HomeView from '../components/views/Home';
 import ProfileView from '../components/views/Profile';
 import JournalView from '../components/views/Journal';
 import AppBar from '../components/elements/AppBar';
 import userData from '../api/user';
-
-import {
-  Navigator,
-  StyleSheet,
-  View,
-  Dimensions
-} from 'react-native';
 
 // NOTE Pulling this in as recommended by the Github issues referenced below for removing animation from
 // scene transitions
@@ -50,7 +50,7 @@ class MenuComponent extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed', paddingTop: 50}}>
+      <View style={{flex: 1, backgroundColor: variables.colors.white, paddingTop: 50}}>
         <List containerStyle={{marginBottom: 20}}>
           {
             menuItems.map((item, i) => (
@@ -141,7 +141,7 @@ export default class IphoneLayout extends Component {
         into: buildStyleInterpolator(NoTransition),
         out: buildStyleInterpolator(NoTransition),
       },
-    }
+    };
   };
 
   orientationDidChange = () => {
@@ -177,11 +177,12 @@ export default class IphoneLayout extends Component {
     if (this.state.loggedIn) {
       return (
         <SideMenu
-          MenuComponent={<MenuComponent navigate={this.navigate}/>}
-          toggled={this.state.toggled}>
-          <AppBar text='GHI Global' onPress={this.toggleSideMenu}/>
+          MenuComponent={<MenuComponent navigate={this.navigate} />}
+          toggled={this.state.toggled}
+        >
+          <AppBar text='GHI Global' onPress={this.toggleSideMenu} />
           <Navigator
-            initialRoute={{title: 'Home', id: 'home'}}
+            initialRoute={{ title: 'Home', id: 'home' }}
             renderScene={this.navigtorRenderScene}
             configureScene={this.navigatorConfigureScene}
             ref='navigator'
@@ -196,15 +197,15 @@ export default class IphoneLayout extends Component {
         username={this.state.username}
         password={this.state.password}
         loginHandler={this.loginHandler}
-        usernameChange={(username) => this.setState({username})}
-        passwordChange={(password) => this.setState({password})}
+        usernameChange={(username) => this.setState({ username })}
+        passwordChange={(password) => this.setState({ password })}
       />
     );
   };
 
   render() {
     return (
-      <View style={[styles.screen, {height: this.state.height}]}>
+      <View style={[styles.screen, { height: this.state.height }]}>
         {this.renderContent()}
       </View>
     );
@@ -217,8 +218,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 20
   }
 });
-
-

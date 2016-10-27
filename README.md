@@ -24,6 +24,10 @@ Sample iOS application using React Native
   - `export PATH=$ANDROID_HOME/tools:$PATH`
   - `export PATH=$ANDROID_HOME/platform-tools:$PATH`
 - You cannot build to IOS from a windows env
+- If you run into issues with packages getting resolved improperly run the packager as follows from the command line
+  - `./node_modules/react-native/packager/packager.sh --reset-cache`
+- If the orientation package is causing problems in android you may have to manually setup the package in android studio here is a   [link](https://github.com/yamill/react-native-orientation/blob/master/README.md) for reference
+  - also note in the package.json that it is point to the github repo for pulling it down because the package has not been updated on npm to reflect the current branch.
 
 # Notes
 

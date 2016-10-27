@@ -11,6 +11,7 @@
 
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
+#import "RCTI18nUtil.h"
 
 @implementation AppDelegate
 
@@ -31,6 +32,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [[RCTI18nUtil sharedInstance] allowRTL:YES];
   return YES;
 }
 

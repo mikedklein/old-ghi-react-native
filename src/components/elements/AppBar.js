@@ -1,29 +1,38 @@
-import React, {Component, PropTypes} from 'react';
-import variables from '../../theme/styleVariables';
-import {Icon} from 'react-native-elements';
-
+import React, { Component, PropTypes } from 'react';
 import {
+  Platform,
+  StatusBar,
   StyleSheet,
+  Text,
   View,
-  Text
 } from 'react-native';
+import { Icon } from 'react-native-elements';
+import variables from '../../theme/styleVariables';
 
 export default class AppBar extends Component {
   render() {
     return (
-      <View style={styles.block}>
-        <View
-          style={styles.imageContainer}>
-          <Icon
-            color='white'
-            size={30}
-            onPress={this.props.onPress}
-            underlayColor={variables.colors.secondaryDark}
-            name='menu'/>
+      <View>
+        <StatusBar
+            backgroundColor={variables.colors.secondaryDark}
+            barStyle="light-content"
+        />
+        <View style={styles.block}>
+          <View
+            style={styles.imageContainer}
+          >
+            <Icon
+              color='white'
+              size={30}
+              onPress={this.props.onPress}
+              underlayColor={variables.colors.secondaryDark}
+              name='menu'
+            />
+          </View>
+          <Text style={styles.text}>
+            {this.props.text.toUpperCase()}
+          </Text>
         </View>
-        <Text style={styles.text}>
-          {this.props.text.toUpperCase()}
-        </Text>
       </View>
     );
   }
@@ -34,8 +43,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: variables.colors.secondaryDark,
+    paddingTop: (Platform.OS === 'ios') ? 25 : 0,
     flexDirection: 'row',
-    paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20

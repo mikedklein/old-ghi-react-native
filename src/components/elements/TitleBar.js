@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    marginBottom: 10,
   },
   spacer: {
     flex: 1

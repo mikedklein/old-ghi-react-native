@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { CheckBox, Icon } from 'react-native-elements';
+import Spacer from '../../elements/Spacer';
+import TitleText from '../../elements/TitleText';
 import variables from '../../../theme/styleVariables';
-import { CheckBox, Icon} from 'react-native-elements'
 
 export default class Prescription extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ export default class Prescription extends Component {
 
   render() {
     let icon;
-    if(this.props.alert) {
+    if (this.props.alert) {
       icon = (
         <Icon
           name='notifications'
@@ -29,24 +31,34 @@ export default class Prescription extends Component {
       );
     }
     return (
-      <View style={styles.row}>
-        <CheckBox
-          title={this.props.name}
-          iconType='material'
-          checkedIcon='check-box'
-          uncheckedIcon='check-box-outline-blank'
-          textStyle={styles.checkText}
-          checked={this.state.checked}
-          containerStyle={styles.containerStyle}
-          checkedColor={variables.colors.primary}
-          onPress={this.pressHandler}
-        />
-        <View style={styles.spacer} />
-        {icon}
-        <Text style={styles.dosageText}>
-          {this.props.dosage}
-        </Text>
-      </View>
+      <TouchableOpacity style={styles.row} onPress={this.pressHandler}>
+
+          <View style={styles.checkWrapper}>
+              <CheckBox
+                iconType='material'
+                checkedIcon='check-box'
+                uncheckedIcon='check-box-outline-blank'
+                textStyle={styles.checkText}
+                checked={this.state.checked}
+                containerStyle={styles.containerStyle}
+                checkedColor={variables.colors.primary}
+
+              />
+          </View>
+
+          <View style={styles.nameWrapper} >
+            <TitleText>
+              {this.props.name}
+            </TitleText>
+          </View>
+
+          <View style={styles.dosageWrapper} >
+            {icon}
+            <TitleText style={{ marginLeft: 5, marginTop: 0}}>
+              {this.props.dosage}
+            </TitleText>
+          </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -54,32 +66,39 @@ export default class Prescription extends Component {
 const styles = StyleSheet.create({
   row: {
     flex: 1,
+    flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 30,
+    marginLeft: 10,
     marginRight: 30,
     paddingBottom: 10,
   },
-  spacer: {
+  checkWrapper: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  nameWrapper: {
+    flex: 2,
+    flexWrap: 'wrap'
+  },
+  dosageWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   containerStyle: {
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: -4,
+    backgroundColor: variables.colors.white,
     padding: 0,
     borderRadius: 0,
     borderWidth: 0
   },
   checkText: {
-    color: variables.colors.headingText,
-    fontSize: 24
-  },
-  dosageText: {
-    color: variables.colors.headingText,
-    marginLeft: 10
+    color: variables.colors.titleText,
+    fontSize: variables.type.titleTextFontSize,
+    lineHeight: variables.type.titleTextLineHeight,
   }
 });
 

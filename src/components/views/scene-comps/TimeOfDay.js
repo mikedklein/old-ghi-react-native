@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import variables from '../../../theme/styleVariables';
 import {
   StyleSheet,
   View,
   Text,
   Image
 } from 'react-native';
+import Spacer from '../../elements/Spacer';
+import HeadingText from '../../elements/HeadingText'
+import variables from '../../../theme/styleVariables';
+
 
 const times = {
   morning: 'Morning',
@@ -16,7 +19,7 @@ export default class TimeOfDay extends Component {
     let image;
     let text;
 
-    if(this.props.time === 'morning') {
+    if (this.props.time === 'morning') {
       text = times[this.props.time];
       image = require('../../../images/sun.png');
     } else if (this.props.time === 'evening') {
@@ -30,10 +33,12 @@ export default class TimeOfDay extends Component {
     return (
       <View style={styles.block}>
         <Image style={styles.image} source={image} />
-        <Text style={styles.text}>
-          {text}
-        </Text>
-        <View style={styles.spacer} />
+        <Spacer />
+        <View>
+          <HeadingText themed>
+            {text}
+          </HeadingText>
+        </View>
       </View>
     );
   }
@@ -41,22 +46,20 @@ export default class TimeOfDay extends Component {
 
 const styles = StyleSheet.create({
   block: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
     flexDirection: 'row',
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    paddingRight: 20
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   image: {
     height: 65,
     width: 65,
     marginRight: 20
-  },
-  spacer: {
-    flex: 1
   },
   text: {
     color: variables.colors.headingText,
@@ -68,4 +71,4 @@ const styles = StyleSheet.create({
 
 TimeOfDay.propTypes = {
   time: PropTypes.string.isRequired,
-}
+};

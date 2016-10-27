@@ -1,22 +1,21 @@
 import React, { PropTypes } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import variables from '../../../theme/styleVariables';
+import { StyleSheet, View } from 'react-native';
+import TitleText from '../../elements/TitleText';
+import SubText from '../../elements/SubText';
 
-const Doctor = ({name, type, phone, address}) => {
-  return (
-    <View style={styles.wrapper} >
-      <Text style={styles.name} >
-        {name}
-      </Text>
-      <Text style={styles.type}>
-        {type}
-      </Text>
-      <Text style={styles.subText} >{address.street}</Text>
-      <Text style={styles.subText} >{address.city}, {address.state} {address.zip}</Text>
-      <Text style={styles.phone}>{phone}</Text>
-    </View>
-  );
-};
+const Doctor = ({ name, type, phone, address }) => (
+  <View style={styles.wrapper} >
+    <TitleText themed>
+      {name}
+    </TitleText>
+    <SubText italic>
+      {type}
+    </SubText>
+    <SubText dark>{address.street}</SubText>
+    <SubText dark>{address.city}, {address.state} {address.zip}</SubText>
+    <SubText>{phone}</SubText>
+  </View>
+);
 
 Doctor.propTypes = {
   name: PropTypes.string.isRequired,
@@ -29,27 +28,6 @@ const styles = StyleSheet.create({
   wrapper: {
     marginBottom: 10
   },
-  name: {
-    color: variables.colors.primary,
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 3
-  },
-  type: {
-    marginBottom: 3,
-    color: variables.colors.headingText,
-    fontSize: variables.type.headingFontSize,
-    fontStyle: 'italic',
-  },
-  subText: {
-    marginBottom: 5,
-    color: variables.colors.headingTextDark,
-    fontSize: variables.type.headingFontSize
-  },
-  phone: {
-    color: variables.colors.headingText,
-    fontSize: variables.type.headingFontSize
-  }
 });
 
 export default Doctor;
